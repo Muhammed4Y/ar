@@ -54,13 +54,18 @@
   <!-- AR SCENE -->
   <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
     
-    <!-- Hiro marker -->
-    <a-marker preset="hiro" id="hiroMarker">
+    <!-- SENİN QR MARKER (.patt) -->
+    <a-marker
+      type="pattern"
+      url="qr/pattern-ar_projesi.patt"
+      id="qrMarker">
+
       <a-box
         position="0 0.5 0"
         color="red"
         animation="property: rotation; to: 0 360 0; loop: true; dur: 3000">
       </a-box>
+
     </a-marker>
 
     <a-entity camera></a-entity>
@@ -69,7 +74,7 @@
   <!-- LOG SCRIPT -->
   <script>
     const logContent = document.getElementById("logContent");
-    const marker = document.getElementById("hiroMarker");
+    const marker = document.getElementById("qrMarker");
 
     function logYaz(metin) {
       const zaman = new Date().toLocaleTimeString();
@@ -78,16 +83,16 @@
     }
 
     // Versiyon bilgisi
-    logYaz("AR Projesi v1.0");
-    logYaz("Sayfa yüklendi.");
+    logYaz("AR Projesi v1.1");
+    logYaz("Özel QR (.patt) marker yüklendi");
     logYaz("Kamera başlatılıyor...");
 
     marker.addEventListener("markerFound", () => {
-      logYaz("Hiro marker algılandı ✔");
+      logYaz("QR marker algılandı ✔");
     });
 
     marker.addEventListener("markerLost", () => {
-      logYaz("Hiro marker kayboldu ✖");
+      logYaz("QR marker kayboldu ✖");
     });
   </script>
 
