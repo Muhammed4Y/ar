@@ -17,7 +17,7 @@
       font-family: monospace;
     }
 
-    /* LOG PANEL (başta gizli) */
+    /* LOG PANEL */
     #logPanel {
       position: fixed;
       right: 10px;
@@ -27,29 +27,25 @@
       background: rgba(0, 0, 0, 0.75);
       color: #00ffcc;
       padding: 10px;
-      box-sizing: border-box;
       font-size: 12px;
       overflow-y: auto;
-      z-index: 9999;
       display: none;
+      z-index: 9999;
       border-radius: 8px;
     }
 
     #logPanel h3 {
-      margin: 0 0 8px 0;
+      margin: 0 0 6px 0;
+      color: white;
       font-size: 14px;
-      color: #ffffff;
-      border-bottom: 1px solid #444;
-      padding-bottom: 5px;
     }
 
-    /* SAĞ ALT BUTON */
     #logBtn {
       position: fixed;
       right: 10px;
       bottom: 10px;
       padding: 10px 14px;
-      background: rgba(0, 0, 0, 0.8);
+      background: rgba(0, 0, 0, 0.85);
       color: #00ffcc;
       border: 1px solid #00ffcc;
       border-radius: 20px;
@@ -57,38 +53,57 @@
       cursor: pointer;
       z-index: 10000;
     }
-
-    #logBtn:active {
-      transform: scale(0.95);
-    }
   </style>
 </head>
 
 <body>
 
-  <!-- LOG PANEL -->
+  <!-- LOG -->
   <div id="logPanel">
-    <h3>LOG / VERSİYON</h3>
+    <h3>LOG</h3>
     <div id="logContent"></div>
   </div>
-
-  <!-- LOG AÇ/KAPA BUTONU -->
   <button id="logBtn">LOG</button>
 
   <!-- AR SCENE -->
   <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
     
-    <!-- SENİN QR MARKER -->
+    <!-- QR MARKER -->
     <a-marker
       type="pattern"
       url="qr/pattern-ar_projesi.patt"
       id="qrMarker">
 
-      <a-box
+      <!-- KARA DELİK (merkez) -->
+      <a-sphere
+        radius="0.35"
+        color="#000000"
         position="0 0.5 0"
-        color="red"
-        animation="property: rotation; to: 0 360 0; loop: true; dur: 3000">
-      </a-box>
+        animation="property: scale; from: 1 1 1; to: 0.9 0.9 0.9; dir: alternate; loop: true; dur: 800">
+      </a-sphere>
+
+      <!-- IŞINLAR -->
+      <a-entity position="0 0.5 0">
+
+        <a-cylinder radius="0.02" height="2"
+          color="#00ccff"
+          position="0 1 0"
+          animation="property: position; from: 0 0.5 0; to: 0 3 0; loop: true; dur: 1200">
+        </a-cylinder>
+
+        <a-cylinder radius="0.02" height="2"
+          color="#ff00ff"
+          rotation="0 0 45"
+          animation="property: position; from: 0 0.5 0; to: 1.5 2.5 0; loop: true; dur: 1400">
+        </a-cylinder>
+
+        <a-cylinder radius="0.02" height="2"
+          color="#ffff00"
+          rotation="0 0 -45"
+          animation="property: position; from: 0 0.5 0; to: -1.5 2.5 0; loop: true; dur: 1600">
+        </a-cylinder>
+
+      </a-entity>
 
     </a-marker>
 
@@ -108,23 +123,20 @@
       logContent.scrollTop = logContent.scrollHeight;
     }
 
-    // Log panel aç/kapa
-    logBtn.addEventListener("click", () => {
+    logBtn.onclick = () => {
       logPanel.style.display =
         logPanel.style.display === "none" ? "block" : "none";
-    });
+    };
 
-    // Başlangıç logları
-    logYaz("AR Projesi v1.2");
-    logYaz("Özel QR marker yüklendi");
-    logYaz("Kamera başlatılıyor...");
+    logYaz("AR Projesi v1.3");
+    logYaz("Kara delik sahnesi yüklendi");
 
     marker.addEventListener("markerFound", () => {
-      logYaz("QR marker algılandı ✔");
+      logYaz("QR algılandı → Kara delik aktif");
     });
 
     marker.addEventListener("markerLost", () => {
-      logYaz("QR marker kayboldu ✖");
+      logYaz("QR kayboldu → Kara delik pasif");
     });
   </script>
 
