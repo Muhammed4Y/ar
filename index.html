@@ -17,13 +17,13 @@
       font-family: monospace;
     }
 
-    /* Sağ log / versiyon paneli */
+    /* LOG PANEL (başta gizli) */
     #logPanel {
       position: fixed;
-      top: 0;
-      right: 0;
+      right: 10px;
+      bottom: 60px;
       width: 260px;
-      height: 100vh;
+      max-height: 50vh;
       background: rgba(0, 0, 0, 0.75);
       color: #00ffcc;
       padding: 10px;
@@ -31,6 +31,8 @@
       font-size: 12px;
       overflow-y: auto;
       z-index: 9999;
+      display: none;
+      border-radius: 8px;
     }
 
     #logPanel h3 {
@@ -39,6 +41,25 @@
       color: #ffffff;
       border-bottom: 1px solid #444;
       padding-bottom: 5px;
+    }
+
+    /* SAĞ ALT BUTON */
+    #logBtn {
+      position: fixed;
+      right: 10px;
+      bottom: 10px;
+      padding: 10px 14px;
+      background: rgba(0, 0, 0, 0.8);
+      color: #00ffcc;
+      border: 1px solid #00ffcc;
+      border-radius: 20px;
+      font-size: 12px;
+      cursor: pointer;
+      z-index: 10000;
+    }
+
+    #logBtn:active {
+      transform: scale(0.95);
     }
   </style>
 </head>
@@ -51,10 +72,13 @@
     <div id="logContent"></div>
   </div>
 
+  <!-- LOG AÇ/KAPA BUTONU -->
+  <button id="logBtn">LOG</button>
+
   <!-- AR SCENE -->
   <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
     
-    <!-- SENİN QR MARKER (.patt) -->
+    <!-- SENİN QR MARKER -->
     <a-marker
       type="pattern"
       url="qr/pattern-ar_projesi.patt"
@@ -71,9 +95,11 @@
     <a-entity camera></a-entity>
   </a-scene>
 
-  <!-- LOG SCRIPT -->
+  <!-- SCRIPT -->
   <script>
+    const logPanel = document.getElementById("logPanel");
     const logContent = document.getElementById("logContent");
+    const logBtn = document.getElementById("logBtn");
     const marker = document.getElementById("qrMarker");
 
     function logYaz(metin) {
@@ -82,9 +108,15 @@
       logContent.scrollTop = logContent.scrollHeight;
     }
 
-    // Versiyon bilgisi
-    logYaz("AR Projesi v1.1");
-    logYaz("Özel QR (.patt) marker yüklendi");
+    // Log panel aç/kapa
+    logBtn.addEventListener("click", () => {
+      logPanel.style.display =
+        logPanel.style.display === "none" ? "block" : "none";
+    });
+
+    // Başlangıç logları
+    logYaz("AR Projesi v1.2");
+    logYaz("Özel QR marker yüklendi");
     logYaz("Kamera başlatılıyor...");
 
     marker.addEventListener("markerFound", () => {
